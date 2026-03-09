@@ -1,3 +1,21 @@
+/**
+ * Problem: LRU Cache (LeetCode #146)
+ * Concept: Doubly linked list + hash map for O(1) access and eviction
+ * Description:
+ *  Design a cache that supports get and put operations in O(1) time.
+ *
+ * Algorithm:
+ *  1. Use a doubly linked list to track usage order (head = most recent, tail = least recent).
+ *  2. Use an unordered_map to store key -> node mapping for O(1) access.
+ *  3. get(key): if key exists, move node to front, return value.
+ *  4. put(key, value): if key exists, update and move to front; 
+ *     else, if cache full, remove tail (LRU) and insert new node at front.
+ *
+ * Complexity:
+ *  Time: O(1) per operation
+ *  Space: O(capacity)
+ */
+
 #include<iostream>
 #include<unordered_map>
 using namespace std;
