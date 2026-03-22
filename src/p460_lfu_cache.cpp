@@ -2,6 +2,72 @@
  *Date: March 21, 2026
  * Source: www.github.com/shaifurcodes
  */
+/*
+ * LFU (Least Frequently Used) Cache
+ *
+ * The LFU cache evicts the key with the lowest access frequency.
+ * If multiple keys have the same frequency, the least recently used (LRU)
+ * key among them is evicted.
+ *
+ * Operations:
+ * 1. get(key):
+ *    - If key exists, return its value.
+ *    - Increase its frequency count.
+ *    - Move it to the corresponding higher frequency list.
+ *
+ * 2. put(key, value):
+ *    - If key exists:
+ *        - Update its value.
+ *        - Increase its frequency.
+ *    - If key does not exist:
+ *        - If cache is full:
+ *            - Evict the least frequently used key.
+ *            - If tie, evict least recently used among them.
+ *        - Insert new key with frequency = 1.
+ *
+ * Key Idea:
+ * - Maintain frequency buckets.
+ * - Track minimum frequency (min_freq) for O(1) eviction.
+ *
+ * Complexity:
+ * - get(): O(1)
+ * - put(): O(1)
+ */
+/*
+ * Data Structures Used:
+ *
+ * 1. unordered_map<int, pair<int, list<KV>::iterator>> cache;
+ *    - Maps key → (frequency, iterator to its position in frequency list)
+ *    - Allows O(1) lookup and update.
+ *
+ * 2. unordered_map<int, list<pair<int, int>>> frequencies;
+ *    - Maps frequency → doubly linked list of (key, value)
+ *    - Each list maintains keys with same frequency in LRU order.
+ *    - Front = most recently used
+ *    - Back = least recently used (candidate for eviction)
+ *
+ * 3. list<pair<int, int>>
+ *    - Stores (key, value) pairs.
+ *    - Used because:
+ *        - O(1) insertion (emplace_front)
+ *        - O(1) deletion using iterator
+ *
+ * 4. min_freq:
+ *    - Tracks the minimum frequency currently present in cache.
+ *    - Used to quickly identify which list to evict from.
+ *
+ *
+ * Overall Design:
+ *
+ *         key → (freq, iterator)
+ *                │
+ *                ▼
+ *     freq → [ (k1,v1), (k2,v2), ... ]
+ *
+ * - cache gives O(1) access to key location
+ * - frequencies groups keys by frequency
+ * - list maintains LRU order within same frequency
+ */
 
 #include<iostream>
 #include<unordered_map>
