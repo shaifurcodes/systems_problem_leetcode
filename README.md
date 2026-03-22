@@ -8,12 +8,8 @@
 355 – Design Twitter  
 642 – Autocomplete System  
 588 – In-Memory File System  
-355 – Design Twitter  
-432 – All O(1) Data Structure  
-460 – LFU Cache  
 381 – Insert Delete GetRandom O(1) – Duplicates allowed  
 380 – Insert Delete GetRandom O(1)  
-146 – LRU Cache  
 1206 – Design Skiplist  
 1396 – Design Underground System  
 
